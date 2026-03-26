@@ -158,7 +158,7 @@ export const Chantiers = () => {
               >
                 <div className="card-top">
                   <h4>{task.title}</h4>
-                  <Button variant="outline" className="btn-icon-sm"><MoreHorizontal size={14}/></Button>
+                  <Badge status="prospect">À démarrer</Badge>
                 </div>
                 <div className="card-meta">
                   <span className="label-sm"><MapPin size={12}/> {task.location}</span>
@@ -192,7 +192,7 @@ export const Chantiers = () => {
               >
                 <div className="card-top">
                   <h4>{task.title}</h4>
-                  <Button variant="outline" className="btn-icon-sm"><MoreHorizontal size={14}/></Button>
+                  <Badge status="active">En cours</Badge>
                 </div>
                 <div className="card-meta">
                   <span className="label-sm"><MapPin size={12}/> {task.location}</span>
@@ -234,6 +234,7 @@ export const Chantiers = () => {
               >
                 <div className="card-top">
                   <h4>{task.title}</h4>
+                  <Badge status="neutral">Terminé</Badge>
                 </div>
                 <div className="card-meta">
                   <span className="label-sm"><MapPin size={12}/> {task.location}</span>

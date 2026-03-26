@@ -3,6 +3,7 @@ import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
 import { Button } from '../components/Button';
 import { Plus, ArrowRight, Activity, TrendingUp, AlertCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 
 const ProgressBar = ({ percent }) => {
@@ -22,6 +23,7 @@ const ProgressBar = ({ percent }) => {
 };
 
 export const Dashboard = () => {
+  const navigate = useNavigate();
   const [stats, setStats] = useState({ activeProjects: 0, warmProspects: 0, atRiskTasks: 0 });
   const [projects, setProjects] = useState([]);
   const [contacts, setContacts] = useState([]);
@@ -47,10 +49,6 @@ export const Dashboard = () => {
           <h2 className="editorial-title">Tableau de Bord</h2>
           <p className="editorial-subtitle">Vue globale des opérations et statut des chantiers</p>
         </div>
-        <Button variant="primary">
-          <Plus size={18} />
-          Nouveau Chantier
-        </Button>
       </header>
 
       <div className="dashboard-grid">

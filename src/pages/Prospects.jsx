@@ -3,18 +3,26 @@ import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
 import { Button } from '../components/Button';
 import { Modal } from '../components/Modal';
-import { Search, Filter, Mail, Phone, MoreVertical, Plus } from 'lucide-react';
+import { Search, Filter, Mail, Phone, MoreVertical, Plus, UserCheck, Trash2 } from 'lucide-react';
 import './Prospects.css';
 
 export const Prospects = () => {
   const [prospectsData, setProspectsData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [prospectToConvert, setProspectToConvert] = useState(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [prospectToDelete, setProspectToDelete] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeFilter, setActiveFilter] = useState('all');
   const [formData, setFormData] = useState({
     name: '',
     project: '',
     value: '',
     date: 'Aujourd\'hui',
-    status: 'prospect'
+    status: 'prospect',
+    description: '',
+    channel: ''
   });
 
   const fetchContacts = () => {
@@ -24,9 +32,39 @@ export const Prospects = () => {
       .catch(err => console.error(err));
   };
 
+  const handleConvertToClient = () => {
+    if (!prospectToConvert) return;
+    
+    fetch(`http://localhost:3001/api/contacts/${prospectToConvert.id}/status`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'client' })
+    })
+    .then(res => res.json())
+    .then(() => {
+      setConfirmModalOpen(false);
+      setProspectToConvert(null);
+      fetchContacts();
+    })
+    .catch(err => console.error(err));
+  };
+
   useEffect(() => {
     fetchContacts();
   }, []);
+
+  const handleDelete = () => {
+    if (!prospectToDelete) return;
+    fetch(`http://localhost:3001/api/contacts/${prospectToDelete.id}`, {
+      method: 'DELETE'
+    })
+    .then(() => {
+      setDeleteModalOpen(false);
+      setProspectToDelete(null);
+      fetchContacts();
+    })
+    .catch(err => console.error(err));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,7 +76,7 @@ export const Prospects = () => {
     .then(res => res.json())
     .then(() => {
       setIsModalOpen(false);
-      setFormData({ name: '', project: '', value: '', date: 'Aujourd\'hui', status: 'prospect' });
+      setFormData({ name: '', project: '', value: '', date: 'Aujourd\'hui', status: 'prospect', description: '', channel: '' });
       fetchContacts();
     })
     .catch(err => console.error(err));
@@ -64,12 +102,35 @@ export const Prospects = () => {
       <div className="toolbar glass-panel">
         <div className="search-bar">
           <Search size={18} className="search-icon"/>
-          <input type="text" placeholder="Rechercher par nom, entreprise ou projet..." />
+          <input 
+            type="text" 
+            placeholder="Rechercher par nom, entreprise ou projet..." 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
         <div className="toolbar-filters">
-          <Badge status="prospect" className="clickable">En Cours (2)</Badge>
-          <Badge status="risk" className="clickable">Perdus (1)</Badge>
-          <Badge status="neutral" className="clickable">Tous (3)</Badge>
+          <Badge 
+            status="prospect" 
+            className={`clickable ${activeFilter === 'prospect' ? '' : 'faded'}`}
+            onClick={() => setActiveFilter(activeFilter === 'prospect' ? 'all' : 'prospect')}
+          >
+            En Cours ({prospectsData.filter(p => p.status === 'prospect').length})
+          </Badge>
+          <Badge 
+            status="risk" 
+            className={`clickable ${activeFilter === 'lost' ? '' : 'faded'}`}
+            onClick={() => setActiveFilter(activeFilter === 'lost' ? 'all' : 'lost')}
+          >
+            Perdus ({prospectsData.filter(p => p.status === 'lost').length})
+          </Badge>
+          <Badge 
+            status="neutral" 
+            className={`clickable ${activeFilter === 'all' ? '' : 'faded'}`}
+            onClick={() => setActiveFilter('all')}
+          >
+            Tous ({prospectsData.length})
+          </Badge>
         </div>
       </div>
 
@@ -86,7 +147,14 @@ export const Prospects = () => {
             </tr>
           </thead>
           <tbody>
-            {prospectsData.map((row, index) => (
+            {prospectsData
+              .filter(row => {
+                const q = searchQuery.toLowerCase();
+                const matchesSearch = !q || row.name.toLowerCase().includes(q) || (row.project && row.project.toLowerCase().includes(q)) || (row.value && row.value.toLowerCase().includes(q));
+                const matchesFilter = activeFilter === 'all' || row.status === activeFilter;
+                return matchesSearch && matchesFilter;
+              })
+              .map((row, index) => (
               <tr key={row.id} className={index % 2 === 0 ? 'row-alt' : 'row-base'}>
                 <td>
                   <div className="contact-cell">
@@ -110,9 +178,30 @@ export const Prospects = () => {
                 </td>
                 <td className="text-right">
                   <div className="action-buttons">
+                    {row.status !== 'client' && (
+                      <button 
+                        className="icon-action" 
+                        title="Convertir en client" 
+                        onClick={() => {
+                          setProspectToConvert({ id: row.id, name: row.name });
+                          setConfirmModalOpen(true);
+                        }}
+                      >
+                        <UserCheck size={18} color="#10b981" />
+                      </button>
+                    )}
                     <button className="icon-action"><Phone size={16}/></button>
                     <button className="icon-action"><Mail size={16}/></button>
-                    <button className="icon-action"><MoreVertical size={16}/></button>
+                    <button 
+                      className="icon-action" 
+                      title="Supprimer"
+                      onClick={() => {
+                        setProspectToDelete({ id: row.id, name: row.name });
+                        setDeleteModalOpen(true);
+                      }}
+                    >
+                      <Trash2 size={16} color="#ef4444" />
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -154,11 +243,64 @@ export const Prospects = () => {
               onChange={(e) => setFormData({...formData, value: e.target.value})}
             />
           </div>
+          <div className="form-group">
+            <label className="form-label">Canal d'acquisition</label>
+            <select 
+              className="form-select" 
+              value={formData.channel} 
+              onChange={(e) => setFormData({...formData, channel: e.target.value})}
+            >
+              <option value="">Sélectionner un canal...</option>
+              <option value="Bouche-à-oreille">Bouche-à-oreille</option>
+              <option value="Site web">Site web</option>
+              <option value="Réseaux sociaux">Réseaux sociaux</option>
+              <option value="Recommandation partenaire">Recommandation partenaire</option>
+              <option value="Salon / Événement">Salon / Événement</option>
+              <option value="Publicité">Publicité</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label className="form-label">Description / Commentaires</label>
+            <textarea 
+              className="form-input" 
+              placeholder="Notes, contexte du projet, remarques..." 
+              value={formData.description} 
+              onChange={(e) => setFormData({...formData, description: e.target.value})}
+              style={{ height: '100px', paddingTop: '0.75rem', resize: 'vertical' }}
+            />
+          </div>
           <div className="form-actions">
             <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)}>Annuler</Button>
             <Button type="submit" variant="primary">Enregistrer</Button>
           </div>
         </form>
+      </Modal>
+
+      <Modal isOpen={confirmModalOpen} onClose={() => setConfirmModalOpen(false)} title="Confirmer la signature">
+        <div style={{ padding: 'var(--spacing-4) 0', color: 'var(--on-surface)', lineHeight: '1.5' }}>
+          Avez-vous signé le projet avec <strong>{prospectToConvert?.name}</strong> ?<br/><br/>
+          En confirmant, ce contact sera officiellement transféré dans votre liste de Clients.
+        </div>
+        <div className="form-actions" style={{ marginTop: 'var(--spacing-6)' }}>
+          <Button type="button" variant="outline" onClick={() => setConfirmModalOpen(false)}>Annuler</Button>
+          <Button type="button" variant="primary" style={{ backgroundColor: '#10b981', color: 'white' }} onClick={handleConvertToClient}>
+            Confirmer la signature
+          </Button>
+        </div>
+      </Modal>
+
+      <Modal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} title="Supprimer le contact">
+        <div style={{ padding: 'var(--spacing-4) 0', color: 'var(--on-surface)', lineHeight: '1.5' }}>
+          Êtes-vous sûr de vouloir supprimer <strong>{prospectToDelete?.name}</strong> ?<br/><br/>
+          Cette action est irréversible. Toutes les données associées à ce contact seront définitivement supprimées.
+        </div>
+        <div className="form-actions" style={{ marginTop: 'var(--spacing-6)' }}>
+          <Button type="button" variant="outline" onClick={() => setDeleteModalOpen(false)}>Annuler</Button>
+          <Button type="button" variant="primary" style={{ backgroundColor: '#ef4444', color: 'white' }} onClick={handleDelete}>
+            Supprimer définitivement
+          </Button>
+        </div>
       </Modal>
     </div>
   );

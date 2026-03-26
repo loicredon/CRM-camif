@@ -20,6 +20,22 @@ app.post('/api/contacts', async (req, res) => {
   res.json(contact);
 });
 
+app.put('/api/contacts/:id/status', async (req, res) => {
+  const { status } = req.body;
+  const contact = await prisma.contact.update({
+    where: { id: parseInt(req.params.id) },
+    data: { status }
+  });
+  res.json(contact);
+});
+
+app.delete('/api/contacts/:id', async (req, res) => {
+  await prisma.contact.delete({
+    where: { id: parseInt(req.params.id) }
+  });
+  res.json({ success: true });
+});
+
 // --- Projects (Chantiers) ---
 app.get('/api/projects', async (req, res) => {
   const projects = await prisma.project.findMany({ 
@@ -81,10 +97,35 @@ app.post('/api/tasks', async (req, res) => {
   res.json(task);
 });
 
+app.put('/api/tasks/:id', async (req, res) => {
+  const { title, team, start, duration, status, startDate, endDate } = req.body;
+  const task = await prisma.task.update({
+    where: { id: parseInt(req.params.id) },
+    data: { title, team, start, duration, status, startDate, endDate }
+  });
+  res.json(task);
+});
+
+app.delete('/api/tasks/:id', async (req, res) => {
+  await prisma.task.delete({
+    where: { id: parseInt(req.params.id) }
+  });
+  res.json({ success: true });
+});
+
 // --- Companies (Annuaire) ---
 app.get('/api/companies', async (req, res) => {
   const companies = await prisma.company.findMany({ orderBy: { name: 'asc' } });
   res.json(companies);
+});
+
+app.get('/api/companies/:id', async (req, res) => {
+  const company = await prisma.company.findUnique({
+    where: { id: parseInt(req.params.id) },
+    include: { projects: true }
+  });
+  if (!company) return res.status(404).json({ error: 'Company not found' });
+  res.json(company);
 });
 
 app.post('/api/companies', async (req, res) => {

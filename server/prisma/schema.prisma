@@ -8,12 +8,14 @@ datasource db {
 }
 
 model Contact {
-  id        Int      @id @default(autoincrement())
-  name      String
-  project   String?
-  value     String?
-  status    String   // 'client', 'prospect', 'lost'
-  date      String?
+  id          Int      @id @default(autoincrement())
+  name        String
+  project     String?
+  value       String?
+  status      String   // 'client', 'prospect', 'lost'
+  date        String?
+  description String?
+  channel     String?
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -44,8 +46,10 @@ model Task {
   title     String
   phase     String?
   team      String?
-  start     Int
-  duration  Int
+  start     Int      @default(0)
+  duration  Int      @default(20)
+  startDate String?
+  endDate   String?
   status    String   // 'good', 'warning', 'upcoming'
   
   projectId Int

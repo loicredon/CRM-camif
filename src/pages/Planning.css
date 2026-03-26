@@ -103,19 +103,25 @@
 }
 
 /* Status variants */
-.gantt-bar.good {
-  background-color: var(--secondary);
-  color: var(--on-primary);
+.gantt-bar.good,
+.gantt-bar.done {
+  background-color: #34d399;
+  color: #fff;
+}
+
+.gantt-bar.inProgress {
+  background-color: #3b82f6;
+  color: #fff;
 }
 
 .gantt-bar.warning {
-  background-color: var(--tertiary-fixed-dim);
-  color: var(--on-tertiary-container);
+  background-color: #f59e0b;
+  color: #fff;
 }
 
 .gantt-bar.upcoming {
-  background-color: var(--primary-fixed-dim);
-  color: var(--primary-container);
+  background-color: #818cf8;
+  color: #fff;
 }
 
 /* Legend */
@@ -138,6 +144,7 @@
   border-radius: 2px;
 }
 
-.legend-swatch.good { background-color: var(--secondary); }
-.legend-swatch.warning { background-color: var(--tertiary-fixed-dim); }
-.legend-swatch.upcoming { background-color: var(--primary-fixed-dim); }
+.legend-swatch.good, .legend-swatch.done { background-color: #34d399; }
+.legend-swatch.inProgress { background-color: #3b82f6; }
+.legend-swatch.warning { background-color: #f59e0b; }
+.legend-swatch.upcoming { background-color: #818cf8; }

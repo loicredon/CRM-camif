@@ -21,7 +21,7 @@ function App() {
           <Route path="prospects" element={<Prospects />} />
           <Route path="planning" element={<Planning />} />
           <Route path="annuaire" element={<Annuaire />} />
-          <Route path="detail-entreprise" element={<DetailEntreprise />} />
+          <Route path="entreprise/:id" element={<DetailEntreprise />} />
           <Route path="chantiers/:id/planning" element={<ChantierPlanning />} />
         </Route>
       </Routes>

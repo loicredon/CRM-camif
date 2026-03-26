@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Badge } from '../components/Badge';
@@ -7,6 +8,7 @@ import './Annuaire.css';
 
 export const Annuaire = () => {
   const [directory, setDirectory] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('http://localhost:3001/api/companies')
@@ -33,7 +35,13 @@ export const Annuaire = () => {
 
       <div className="directory-grid">
         {directory.map(company => (
-          <Card key={company.id} level="lowest" className="company-card">
+          <Card 
+            key={company.id} 
+            level="lowest" 
+            className="company-card"
+            onClick={() => navigate(`/entreprise/${company.id}`)}
+            style={{ cursor: 'pointer' }}
+          >
             <div className="company-header">
               <div className="company-icon">
                 <Building2 size={24}/>
@@ -53,9 +61,14 @@ export const Annuaire = () => {
               <span className="label-sm"><Star size={14} fill="var(--tertiary-fixed-dim)" color="var(--tertiary-fixed-dim)"/> {company.rating}/5</span>
             </div>
             
-            <div className="company-actions">
-              <Button variant="outline" style={{flex: 1, justifyContent: 'center'}}>Profil</Button>
-              <Button variant="secondary" className="btn-icon"><MessageSquare size={16}/></Button>
+            <div className="company-actions" style={{ justifyContent: 'flex-end' }}>
+              <Button 
+                variant="secondary" 
+                className="btn-icon"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <MessageSquare size={16}/>
+              </Button>
             </div>
           </Card>
         ))}

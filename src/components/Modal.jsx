@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
-import { Button } from './Button';
 import './Modal.css';
 
 export const Modal = ({ isOpen, onClose, title, children }) => {
@@ -17,19 +17,20 @@ export const Modal = ({ isOpen, onClose, title, children }) => {
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content animate-scale-in" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h3 className="modal-title">{title}</h3>
-          <Button variant="outline" className="btn-icon" onClick={onClose}>
-            <X size={20} />
-          </Button>
+          <button className="btn-icon" onClick={onClose} aria-label="Fermer">
+            <X size={18} />
+          </button>
         </div>
         <div className="modal-body">
           {children}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

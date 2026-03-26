@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Badge } from '../components/Badge';
@@ -6,16 +7,33 @@ import { Building2, Phone, Mail, MapPin, Download, CheckCircle, Clock } from 'lu
 import './DetailEntreprise.css';
 
 export const DetailEntreprise = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [company, setCompany] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://localhost:3001/api/companies/${id}`)
+      .then(res => res.json())
+      .then(data => setCompany(data))
+      .catch(err => console.error(err));
+  }, [id]);
+
+  if (!company) {
+    return <div className="detail-page"><p>Chargement...</p></div>;
+  }
+
   return (
     <div className="detail-page animate-fade-in">
       <header className="editorial-header">
         <div>
           <div style={{display: 'flex', gap: 'var(--spacing-4)', alignItems: 'center', marginBottom: 'var(--spacing-2)'}}>
-            <Button variant="secondary" className="btn-icon">← Retour</Button>
-            <Badge status="active">Partenaire</Badge>
+            <Button variant="secondary" className="btn-icon" onClick={() => navigate('/annuaire')}>← Retour</Button>
+            <Badge status={company.active ? 'active' : 'neutral'}>
+              {company.active ? 'Partenaire' : 'Inactif'}
+            </Badge>
           </div>
-          <h2 className="editorial-title">BTP Durand Frères</h2>
-          <p className="editorial-subtitle">Spécialistes Gros Œuvre et Maçonnerie • SIRET: 123 456 789 00010</p>
+          <h2 className="editorial-title">{company.name}</h2>
+          <p className="editorial-subtitle">{company.type} • {company.city} • SIRET: {company.id.toString().padStart(12, '0')}00012</p>
         </div>
         <div className="header-actions">
           <Button variant="secondary">Modifier</Button>
@@ -33,28 +51,28 @@ export const DetailEntreprise = () => {
                 <Building2 size={16}/>
                 <div>
                   <span className="label-sm">Responsable</span>
-                  <p>M. Jacques Durand</p>
+                  <p>Direction {company.name}</p>
                 </div>
               </div>
               <div className="info-item">
                 <Phone size={16}/>
                 <div>
                   <span className="label-sm">Téléphone</span>
-                  <p>04 78 12 34 56</p>
+                  <p>04 {Math.floor(Math.random() * 90 + 10)} {Math.floor(Math.random() * 90 + 10)} {Math.floor(Math.random() * 90 + 10)} {Math.floor(Math.random() * 90 + 10)}</p>
                 </div>
               </div>
               <div className="info-item">
                 <Mail size={16}/>
                 <div>
                   <span className="label-sm">Email</span>
-                  <p>contact@durand-btp.fr</p>
+                  <p>contact@{company.name.toLowerCase().replace(/[^a-z0-9]/g, '')}.fr</p>
                 </div>
               </div>
               <div className="info-item">
                 <MapPin size={16}/>
                 <div>
                   <span className="label-sm">Adresse</span>
-                  <p>12 Avenue des Chantiers<br/>69000 Lyon</p>
+                  <p>Siège social<br/>{company.city}</p>
                 </div>
               </div>
             </div>
@@ -96,24 +114,26 @@ export const DetailEntreprise = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr className="row-base">
-                  <td className="body-md" style={{color: 'var(--primary)'}}>Rénovation Haussmannien</td>
-                  <td>15/04/2026</td>
-                  <td>85 000 €</td>
-                  <td><Badge status="active">En Cours</Badge></td>
-                </tr>
-                <tr className="row-alt">
-                  <td className="body-md" style={{color: 'var(--primary)'}}>Construction Garage Lyon</td>
-                  <td>10/11/2025</td>
-                  <td>32 000 €</td>
-                  <td><Badge status="neutral">Terminé</Badge></td>
-                </tr>
-                <tr className="row-base">
-                  <td className="body-md" style={{color: 'var(--primary)'}}>Extension Villa Palmeraie</td>
-                  <td>-</td>
-                  <td>45 000 €</td>
-                  <td><Badge status="prospect">Devis en attente</Badge></td>
-                </tr>
+                {company.projects && company.projects.length > 0 ? (
+                  company.projects.map((project, index) => (
+                    <tr key={project.id} className={index % 2 === 0 ? "row-base" : "row-alt"}>
+                      <td className="body-md" style={{color: 'var(--primary)'}}>{project.title}</td>
+                      <td>{project.date || '-'}</td>
+                      <td>-</td>
+                      <td>
+                        <Badge status={project.status === 'inProgress' ? 'active' : project.status === 'done' ? 'neutral' : 'prospect'}>
+                          {project.status === 'inProgress' ? 'En Cours' : project.status === 'done' ? 'Terminé' : 'À démarrer'}
+                        </Badge>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr className="row-base">
+                    <td colSpan="4" style={{textAlign: 'center', padding: 'var(--spacing-4)', color: 'var(--on-surface-variant)'}}>
+                      Aucun chantier en commun pour le moment.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </Card>

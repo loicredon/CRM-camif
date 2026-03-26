@@ -41,12 +41,12 @@ async function main() {
   // 3. Seed Tasks (Planning)
   await prisma.task.createMany({
     data: [
-      { projectId: p3.id, title: 'Dépose plomberie', team: 'Equipe A', start: 5, duration: 15, status: 'good' },
-      { projectId: p3.id, title: 'Casse cloisons', team: 'Equipe Démolition', start: 10, duration: 10, status: 'good' },
-      { projectId: p3.id, title: 'Évacuation gravats', team: 'Sous-traitant', start: 15, duration: 10, status: 'warning' },
-      { projectId: p3.id, title: 'Traçage sols', team: 'Chef de chantier', start: 30, duration: 5, status: 'upcoming' },
-      { projectId: p3.id, title: 'Nouveau réseau d\'eau', team: 'Plombiers', start: 35, duration: 25, status: 'upcoming' },
-      { projectId: p3.id, title: 'Passage gaines élec', team: 'Électriciens', start: 40, duration: 20, status: 'upcoming' },
+      { projectId: p3.id, title: 'Dépose plomberie', team: 'Equipe A', start: 5, duration: 15, startDate: '2026-04-07', endDate: '2026-04-18', status: 'good' },
+      { projectId: p3.id, title: 'Casse cloisons', team: 'Equipe Démolition', start: 10, duration: 10, startDate: '2026-04-14', endDate: '2026-04-25', status: 'good' },
+      { projectId: p3.id, title: 'Évacuation gravats', team: 'Sous-traitant', start: 15, duration: 10, startDate: '2026-04-21', endDate: '2026-05-02', status: 'warning' },
+      { projectId: p3.id, title: 'Traçage sols', team: 'Chef de chantier', start: 30, duration: 5, startDate: '2026-05-04', endDate: '2026-05-08', status: 'upcoming' },
+      { projectId: p3.id, title: 'Nouveau réseau d\'eau', team: 'Plombiers', start: 35, duration: 25, startDate: '2026-05-11', endDate: '2026-06-05', status: 'upcoming' },
+      { projectId: p3.id, title: 'Passage gaines élec', team: 'Électriciens', start: 40, duration: 20, startDate: '2026-05-18', endDate: '2026-06-12', status: 'upcoming' },
     ]
   });
 

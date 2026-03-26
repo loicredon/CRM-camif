@@ -10,7 +10,6 @@ const navItems = [
   { icon: Contact, label: 'Prospects', path: '/prospects' },
   { icon: CalendarDays, label: 'Rétroplanning', path: '/planning' },
   { icon: Building2, label: 'Annuaire', path: '/annuaire' },
-  { icon: Building2, label: 'Détail Entreprise', path: '/detail-entreprise' },
 ];
 
 export const Sidebar = () => {
