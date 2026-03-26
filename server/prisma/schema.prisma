@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Contact {
+  id        Int      @id @default(autoincrement())
+  name      String
+  project   String?
+  value     String?
+  status    String   // 'client', 'prospect', 'lost'
+  date      String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  projects  Project[]
+}
+
+model Project {
+  id        Int      @id @default(autoincrement())
+  title     String
+  location  String?
+  date      String?
+  progress  Int      @default(0)
+  status    String   // 'todo', 'inProgress', 'done'
+  
+  contactId Int?
+  contact   Contact?  @relation(fields: [contactId], references: [id])
+  
+  tasks     Task[]
+  companies Company[]
+  
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Task {
+  id        Int      @id @default(autoincrement())
+  title     String
+  phase     String?
+  team      String?
+  start     Int
+  duration  Int
+  status    String   // 'good', 'warning', 'upcoming'
+  
+  projectId Int
+  project   Project  @relation(fields: [projectId], references: [id])
+}
+
+model Company {
+  id        Int       @id @default(autoincrement())
+  name      String
+  type      String
+  city      String
+  rating    Float
+  active    Boolean   @default(true)
+
+  projects  Project[]
+}

@@ -1,0 +1,36 @@
+.card {
+  padding: var(--spacing-6);
+  border-radius: var(--rounded-lg);
+  display: flex;
+  flex-direction: column;
+  /* NO borders allowed by default */
+}
+
+/* Surface Depth */
+.surface-lowest {
+  background-color: var(--surface-container-lowest);
+}
+
+.surface-low {
+  background-color: var(--surface-container-low);
+}
+
+.surface-high {
+  background-color: var(--surface-container-high);
+}
+
+.surface-highest {
+  background-color: var(--surface-container-highest);
+}
+
+.glass-card {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Ambient shadow for floating elements (Gantt task detail, modal) */
+.floating-card {
+  box-shadow: var(--ambient-shadow);
+  z-index: 10;
+}

@@ -1,0 +1,52 @@
+.btn {
+  padding: var(--spacing-4) var(--spacing-6);
+  border-radius: var(--rounded-md);
+  font-family: var(--font-inter);
+  font-size: var(--text-body-md);
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  /* Glass and gradient rule for hover */
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-container);
+  color: #ffffff;
+  box-shadow: var(--ambient-shadow);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--primary);
+  /* Ghost border fallback if needed */
+  border: var(--ghost-border);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(200, 197, 205, 0.1);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--on-surface-variant);
+  border: var(--ghost-border);
+}
+
+/* Float primary FABs style */
+.btn-fab {
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-4);
+  box-shadow: var(--ambient-shadow);
+  background: var(--signature-gradient);
+  color: var(--on-primary);
+}

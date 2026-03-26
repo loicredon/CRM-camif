@@ -1,0 +1,135 @@
+.prospects-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-4) var(--spacing-6);
+  border-radius: var(--rounded-lg);
+  margin-bottom: var(--spacing-4);
+  /* "The Ghost Border Fallback: If accessibility requires a border, 
+     use the outline_variant token at 15% opacity." */
+  border: var(--ghost-border);
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-icon {
+  color: var(--on-surface-variant);
+}
+
+.search-bar input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  font-family: var(--font-inter);
+  font-size: var(--text-body-md);
+  color: var(--on-surface);
+  outline: none;
+}
+
+.search-bar input::placeholder {
+  color: var(--outline-variant);
+}
+
+.toolbar-filters {
+  display: flex;
+  gap: var(--spacing-3);
+}
+
+.clickable {
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.clickable:hover {
+  opacity: 0.8;
+}
+
+/* 
+ * "Data Tables: Forbid horizontal divider lines. 
+ * Use surface_container_low for the header row and alternating 
+ * surface and surface_container_lowest for rows."
+ */
+.data-table-container {
+  overflow-x: auto;
+  border-radius: var(--rounded-lg);
+  /* Optional: soft shadow to lift the table */
+  box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+}
+
+.editorial-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.editorial-table th {
+  background-color: var(--surface-container-low);
+  padding: var(--spacing-4) var(--spacing-6);
+  color: var(--on-surface-variant);
+  font-weight: 500;
+  border: none; /* No horizontal lines */
+}
+
+.editorial-table td {
+  padding: var(--spacing-4) var(--spacing-6);
+  border: none; /* No horizontal lines */
+  vertical-align: middle;
+}
+
+/* Alternating rows as requested */
+.row-base {
+  background-color: var(--surface);
+}
+
+.row-alt {
+  background-color: var(--surface-container-lowest);
+}
+
+.contact-cell, .project-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.project-cell {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-1);
+}
+
+.text-right {
+  text-align: right;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-2);
+}
+
+.icon-action {
+  background: transparent;
+  border: none;
+  color: var(--on-surface-variant);
+  cursor: pointer;
+  padding: var(--spacing-2);
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.icon-action:hover {
+  background-color: var(--surface-container-high);
+  color: var(--primary);
+}

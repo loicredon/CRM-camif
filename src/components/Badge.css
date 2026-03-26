@@ -1,0 +1,36 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem 0.6rem;
+  font-family: var(--font-inter);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: var(--rounded-full);
+  border: none;
+}
+
+/* Specific status accents */
+.badge-active {
+  background-color: var(--secondary-container);
+  color: var(--secondary-fixed); /* Dark green readable text, or just on-primary? 
+   Wait, secondary_container is #6bff8f, on_secondary_container #007432 */
+  color: var(--on-secondary-container);
+}
+
+.badge-prospect {
+  background-color: var(--tertiary-fixed);
+  color: var(--on-tertiary-container);
+}
+
+.badge-neutral {
+  background-color: var(--surface-highest);
+  color: var(--on-surface-variant);
+}
+
+.badge-risk {
+  background-color: var(--error-container);
+  color: var(--on-error-container);
+}

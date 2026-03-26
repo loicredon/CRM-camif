@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Colors - Anchors */
+  --primary: #010111;
+  --primary-container: #1a1b2f;
+  --on-primary: #ffffff;
+  
+  /* Colors - Status Accents */
+  --secondary: #006e2f;
+  --secondary-container: #6bff8f;
+  --tertiary-fixed: #ffdbca;
+  --tertiary-fixed-dim: #ffb690;
+  --on-tertiary-container: #da6000;
+  
+  /* Colors - Surfaces & Backgrounds */
+  --background: #fcf8fa;
+  --surface: #fcf8fa;
+  
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f6f2f5;
+  --surface-container: #f1edef;
+  --surface-container-high: #ebe7e9;
+  --surface-container-highest: #e5e1e3;
+  
+  /* Colors - Text & Lines */
+  --on-surface: #1c1b1d;
+  --on-surface-variant: #47464d;
+  --outline-variant: #c8c5cd;
+
+  /* Typography */
+  --font-inter: 'Inter', sans-serif;
+  
+  --text-display-lg: 3.5rem;   /* 56px */
+  --text-headline-lg: 2rem;    /* 32px */
+  --text-body-md: 0.875rem;    /* 14px */
+  --text-label-sm: 0.6875rem;  /* 11px */
+
+  /* Spacing (8pt base usually, modified per design system) */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 0.9rem;
+  --spacing-5: 1.125rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+
+  /* Radii */
+  --rounded-sm: 0.25rem;
+  --rounded-md: 0.375rem;
+  --rounded-lg: 0.5rem;
+  --rounded-xl: 0.75rem;
+  --rounded-full: 9999px;
+
+  /* Shadows & Effects */
+  --ambient-shadow: 0 4px 24px rgba(28, 27, 29, 0.06);
+  --ghost-border: 1px solid rgba(200, 197, 205, 0.15);
+  --signature-gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-container) 100%);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-inter);
+  background-color: var(--background);
+  color: var(--on-surface);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* Typography Classes */
+h1, .display-lg {
+  font-size: var(--text-display-lg);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+h2, .headline-lg {
+  font-size: var(--text-headline-lg);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+p, .body-md {
+  font-size: var(--text-body-md);
+  font-weight: 400;
+  color: var(--on-surface-variant);
+}
+
+.label-sm {
+  font-size: var(--text-label-sm);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--on-surface-variant);
+}
+
+/* Utility Classes */
+.glass-panel {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.signature-gradient {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-container) 100%);
+}
+
+.signature-texture {
+  /* Simulate 2% noise overlay on navy sidebar */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
+}
+
+/* Base Link */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}

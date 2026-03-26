@@ -1,0 +1,143 @@
+.planning-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.gantt-container {
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+}
+
+.gantt-header {
+  display: flex;
+  background-color: var(--surface-container-low);
+  border-bottom: var(--ghost-border);
+}
+
+.gantt-label-col {
+  width: 250px;
+  padding: var(--spacing-4) var(--spacing-6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: var(--ghost-border);
+  flex-shrink: 0;
+}
+
+.gantt-timeline-header {
+  display: flex;
+  flex: 1;
+}
+
+.month-slot {
+  flex: 1;
+  padding: var(--spacing-4);
+  text-align: center;
+  border-right: var(--ghost-border);
+}
+.month-slot:last-child {
+  border-right: none;
+}
+
+.gantt-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.gantt-row {
+  display: flex;
+  border-bottom: 1px solid rgba(200, 197, 205, 0.08); /* specific lighter border for rows */
+}
+
+.gantt-timeline {
+  flex: 1;
+  position: relative;
+  display: flex;
+}
+
+/* "Timeline Rails" surface_container_high 20% opacity */
+.rail-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  z-index: 1;
+}
+
+.rail {
+  flex: 1;
+  border-right: 1px solid rgba(235, 231, 233, 0.4); /* representing surface_container_high mixed visually */
+}
+.rail:last-child {
+  border-right: none;
+}
+
+/* Task bars ("primary_fixed_dim for sophisticated look, secondary highlights") */
+.gantt-bar {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 24px;
+  border-radius: var(--rounded-md);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--spacing-3);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.gantt-bar:hover {
+  box-shadow: var(--ambient-shadow);
+  filter: brightness(1.05);
+}
+
+.bar-label {
+  font-family: var(--font-inter);
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+
+/* Status variants */
+.gantt-bar.good {
+  background-color: var(--secondary);
+  color: var(--on-primary);
+}
+
+.gantt-bar.warning {
+  background-color: var(--tertiary-fixed-dim);
+  color: var(--on-tertiary-container);
+}
+
+.gantt-bar.upcoming {
+  background-color: var(--primary-fixed-dim);
+  color: var(--primary-container);
+}
+
+/* Legend */
+.gantt-legend {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-6);
+  padding: var(--spacing-2) 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.legend-swatch.good { background-color: var(--secondary); }
+.legend-swatch.warning { background-color: var(--tertiary-fixed-dim); }
+.legend-swatch.upcoming { background-color: var(--primary-fixed-dim); }

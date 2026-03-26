@@ -1,0 +1,30 @@
+.layout-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--background);
+}
+
+.main-content {
+  flex: 1;
+  padding: var(--spacing-10) var(--spacing-16);
+  max-width: 1400px; /* Constraints for ultra-wide monitors */
+  /* Intentional asymmetry: padding top is not equal to side padding, feels editorial */
+}
+
+/* Base utility for header asymetry */
+.editorial-header {
+  margin-bottom: var(--spacing-12);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.editorial-title {
+  color: var(--primary);
+  /* Uses display-lg from global css */
+}
+
+.editorial-subtitle {
+  color: var(--on-surface-variant);
+  margin-top: var(--spacing-2);
+}

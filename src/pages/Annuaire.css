@@ -1,0 +1,59 @@
+.directory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-6);
+}
+
+.company-card {
+  gap: var(--spacing-4);
+  transition: transform 0.2s ease, box-shadow 0.2s;
+}
+
+.company-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--ambient-shadow);
+}
+
+.company-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.company-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--rounded-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--surface-container-low);
+  color: var(--primary);
+}
+
+.company-info h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: var(--spacing-1);
+}
+
+.company-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.company-meta .label-sm {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.company-actions {
+  display: flex;
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-4);
+  padding-top: var(--spacing-4);
+  border-top: var(--ghost-border);
+}
